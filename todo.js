@@ -4,10 +4,15 @@ let list = document.getElementById("list");
 
 addbtn.addEventListener('click',function(){
 //create a variable that stores the inputed value from the input box    
-    let inputedValue = inputbox.value; 
-
+    let inputedValue = inputbox.value;
+    
+    if (inputedValue.length > 20 && inputedValue === "") {
+        alert('too long'); //if the inputed task is longer than 20 characters, it doesnt log 
+        return;
+    }
+    if (inputedValue === "") return;  
 // prevents adding empty tasks 
-    if (inputedValue === "") return; 
+   
 
 //not necessary but this shows what has been inputed    
     console.log(inputedValue);
@@ -16,7 +21,7 @@ addbtn.addEventListener('click',function(){
     let li = document.createElement("li");
 
 // the text content should be the already stored value of the input box
-    li.textContent = inputedValue;
+li.textContent = inputedValue;
 
 //then nest the li to the ul element as the child element 
     list.appendChild(li);
@@ -52,7 +57,12 @@ addbtn.addEventListener('click',function(){
     editbtn.addEventListener('click',function(){
         let editedInput=document.createElement("input");//creating a new variable that wil store the new input 
         console.log(li.firstChild.textContent);//this is the text node of the li element 
-        editedInput.value = li.firstChild.textContent;// the new input box will contain the text node so it can be edited 
+        editedInput.value = li.firstChild.textContent;
+        
+        // the new input box will contain the text node so it can be edited
+        
+        
+       
         li.textContent = "";//this will change the li content to be empty while the text is being edited 
         li.appendChild(editedInput);
         let savebtn = document.createElement("button");//create a button to save the edited input
@@ -61,7 +71,16 @@ addbtn.addEventListener('click',function(){
 
         savebtn.addEventListener('click', function(){
             li.textContent = editedInput.value;//changes the li to the new text that has being created 
-            li.appendChild(buttons);//this  shows the buttons again 
+            if (li.textContent.length > 20) {
+                alert('too long') //if the inputed task is longer than 20 characters, it doesnt log 
+                li.textContent = inputedValue;
+                li.appendChild(buttons);
+                return;
+            }
+            else{
+                li.textContent = editedInput.value;
+                li.appendChild(buttons);
+            }//this  shows the buttons again 
         })
     });
     donebtn.addEventListener('click',function(){
